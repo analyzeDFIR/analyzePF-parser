@@ -1,0 +1,9 @@
+# ignore python compiled files
+*__pycache__/*
+*.pyc
+
+# ignore testing files
+*test*
+
+# ignore logs
+*.log
