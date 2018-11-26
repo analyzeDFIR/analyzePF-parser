@@ -42,14 +42,14 @@ class Prefetch(FileParser):
     '''
     Class for parsing Windows prefetch files
     '''
-    header = StructureProperty(1, 'header')
-    file_info = StructureProperty(2, 'file_info', deps=['header'])
-    file_metrics = StructureProperty(3, 'file_metrics', deps=['header'])
-    filename_strings = StructureProperty(4, 'filename_strings', deps=['header', 'file_info', 'file_metrics'])
-    trace_chains = StructureProperty(5, 'trace_chains', deps=['header', 'file_info'])
-    volumes_info = StructureProperty(6, 'volumes_info', deps=['header', 'file_info'])
-    file_references = StructureProperty(7, 'file_references', deps=['file_info', 'volumes_info'])
-    directory_strings = StructureProperty(8, 'directory_strings', deps=['file_info', 'volumes_info'])
+    header = StructureProperty(0, 'header')
+    file_info = StructureProperty(1, 'file_info', deps=['header'])
+    file_metrics = StructureProperty(2, 'file_metrics', deps=['header'])
+    filename_strings = StructureProperty(3, 'filename_strings', deps=['header', 'file_info', 'file_metrics'])
+    trace_chains = StructureProperty(4, 'trace_chains', deps=['header', 'file_info'])
+    volumes_info = StructureProperty(5, 'volumes_info', deps=['header', 'file_info'])
+    file_references = StructureProperty(6, 'file_references', deps=['file_info', 'volumes_info'])
+    directory_strings = StructureProperty(7, 'directory_strings', deps=['file_info', 'volumes_info'])
 
     def _parse_directory_strings(self, stream=None):
         '''
