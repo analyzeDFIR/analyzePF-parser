@@ -1,9 +1,13 @@
-# ignore python compiled files
-*__pycache__/*
+# Ignore .DS_Store files for Apple devices
+*.DS_Store
+
+# Ignore Python compiled files
 *.pyc
+*__pycache__*
 
-# ignore testing files
+# Ignore any test directories or log files
 *test*
-
-# ignore logs
 *.log
+
+# Ignore Vim temp files
+*.swp
