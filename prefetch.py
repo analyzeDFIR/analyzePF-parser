@@ -76,7 +76,7 @@ class Prefetch(FileParser):
                         Logger.error('Error parsing directory strings entry (%s)'%str(e))
                         directory_strings_entry.append(None)
                 directory_strings.append(directory_strings_entry)
-            return self._clean_value(directory_strings)
+            return directory_strings
         finally:
             stream.seek(original_position)
     def _parse_file_references(self, stream=None):
@@ -101,7 +101,7 @@ class Prefetch(FileParser):
                 except Exception as e:
                     Logger.error('Error parsing file_refs_entry (%s)'%str(e))
                     file_refs.append(None)
-            return self._clean_value(file_refs)
+            return file_refs
         finally:
             stream.seek(original_position)
     def _parse_volumes_info(self, stream=None):
@@ -138,7 +138,7 @@ class Prefetch(FileParser):
                     )
                 volumes_info.append(volumes_info_entry)
                 stream.seek(volumes_info_position)
-            return self._clean_value(volumes_info)
+            return volumes_info
         finally:
             stream.seek(original_position)
     def _parse_filename_strings(self, stream=None):
@@ -162,7 +162,7 @@ class Prefetch(FileParser):
                     )
                 else:
                     filename_strings.append(None)
-            return self._clean_value(filename_strings)
+            return filename_strings
         finally:
             stream.seek(original_position)
     def _parse_trace_chains(self, stream=None):
@@ -181,7 +181,7 @@ class Prefetch(FileParser):
             trace_chains = list()
             for i in range(self.file_info.SectionBEntriesCount):
                 trace_chains.append(pfstructs.PrefetchTraceChainEntry.parse_stream(stream))
-            return self._clean_value(trace_chains)
+            return trace_chains
         finally:
             stream.seek(original_position)
     def _parse_file_metrics(self, stream=None):
@@ -207,11 +207,11 @@ class Prefetch(FileParser):
                 PrefetchFileMetricsEntry = pfstructs.PrefetchFileMetricsEntry30
             file_metrics = list()
             for i in range(self.file_info.SectionAEntriesCount):
-                file_metrics_entry = self._clean_value(PrefetchFileMetricsEntry.parse_stream(stream))
+                file_metrics_entry = PrefetchFileMetricsEntry.parse_stream(stream)
                 if hasattr(file_metrics_entry, 'FileReference'):
-                    file_metrics_entry.FileReference = self._clean_value(file_metrics_entry.FileReference)
+                    file_metrics_entry.FileReference = file_metrics_entry.FileReference
                 file_metrics.append(file_metrics_entry)
-            return self._clean_value(file_metrics)
+            return file_metrics
         finally:
             stream.seek(original_position)
     def _parse_file_info(self, stream=None):
@@ -237,7 +237,7 @@ class Prefetch(FileParser):
             lambda ft: WindowsTime.parse_filetime(ft), 
             file_info.RawLastExecutionTime
         ))
-        return self._clean_value(file_info)
+        return file_info
     def _parse_header(self, stream=None):
         '''
         Args:
@@ -252,7 +252,7 @@ class Prefetch(FileParser):
         header.Signature = header.RawSignature.decode('utf8')
         header.ExecutableName = header.RawExecutableName.split('\x00')[0]
         header.PrefetchHash = hex(header.RawPrefetchHash).replace('0x', '').upper()
-        return self._clean_value(header)
+        return header
     def __get_version(self):
         '''
         Args:
